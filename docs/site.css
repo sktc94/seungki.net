@@ -1,0 +1,239 @@
+/* ==========================================================================
+   seungki.net — ported from the Cargo site design
+   ========================================================================== */
+
+@font-face {
+	font-family: "Routed Gothic";
+	src: url(/fonts/RoutedGothic.woff) format("woff");
+	font-display: swap;
+}
+
+/* Repro + Favorit were Cargo-licensed fonts. These are free stand-ins:
+   swap these two lines if you ever license the originals. */
+:root {
+	--font-repro: "Inter", "Helvetica Neue", Arial, sans-serif;
+	--font-favorit: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+	--mobile-pad: 0.3; /* Cargo shrinks paddings to 30% on mobile */
+}
+
+/* --- Cargo's viewport-relative sizing: 1rem grows with the window ------- */
+html { font-size: max(3.2px, 1.44vmin); }
+@media (orientation: portrait) {
+	html { font-size: max(3.2px, min(2.24vw, calc(0.4114vw + 1.0286vh))); }
+}
+/* "mobile" mode (same rules Cargo uses): tall screens, or short landscape phones */
+@media (max-aspect-ratio: 4/5) {
+	html { font-size: calc(1.34 * max(3.2px, min(2.24vw, calc(0.4114vw + 1.0286vh)))); }
+}
+@media (min-aspect-ratio: 2/3) and (max-height: 500px) {
+	html { font-size: calc(1.34 * max(3.2px, 2.88vmin)); }
+}
+
+/* --- page scaffolding (mirrors Cargo's .page > .page-layout > .page-content) --- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background: #fff;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: none;
+}
+
+.content { position: relative; display: flex; flex-direction: column; flex-grow: 1; }
+.pages { width: 100%; flex: 1 0 auto; }
+
+.page { position: relative; display: flex; justify-content: center; width: 100%; }
+.page.overlay { position: absolute; top: 0; left: 0; right: 0; z-index: 2; }
+
+.page-layout {
+	position: relative;
+	display: flex;
+	flex-grow: 1;
+	width: 0%;
+	align-items: center;
+	max-width: 85%;
+}
+
+.page-content {
+	display: flex;
+	width: 100%;
+	padding: 3rem;
+	text-align: center;
+}
+
+bodycopy {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	word-wrap: break-word;
+	font-family: "Routed Gothic", monospace;
+	font-size: 1.2rem;
+	font-weight: 400;
+	line-height: 1.2;
+	color: #000;
+}
+
+/* per-page settings carried over from Cargo */
+#front-page { min-height: 100vh; }
+#front-page .page-content { padding-top: 1rem; text-align: left; }
+#header .page-content,
+#header-mobile .page-content { padding-top: 2.5rem; padding-bottom: 0; }
+#nav .page-layout { align-items: flex-start; padding: 3.6rem; max-width: 92%; }
+#nav .page-content { padding: 3.6rem; }
+
+.mobile-only { display: none; }
+
+/* --- text styles (from the Cargo stylesheet) ---------------------------- */
+a { color: #000; text-decoration: none; }
+a:active, .zoomable:active { opacity: 0.7; }
+.page a.active { opacity: 0.4; }
+
+sub { position: relative; vertical-align: baseline; top: 0.3em; }
+sup { position: relative; vertical-align: baseline; top: -0.4em; }
+
+hr {
+	background: #4080c2;
+	border: 0;
+	height: 3px;
+	display: block;
+	margin: 0.7rem 0 0.9rem;
+}
+
+h1 {
+	font-family: var(--font-favorit);
+	font-weight: 350;
+	font-size: 9rem;
+	line-height: 1;
+	letter-spacing: -0.035em;
+	margin: 0;
+	color: #000;
+}
+
+h2 {
+	font-family: var(--font-repro);
+	font-weight: 900;
+	font-size: 2.4rem;
+	line-height: 1.2;
+	margin: 0;
+	color: #000;
+}
+
+.caption {
+	display: block;
+	font-family: var(--font-repro);
+	font-weight: 400;
+	font-size: 1.6rem;
+	line-height: 1.3;
+	text-align: left;
+	color: #000;
+	background: rgba(221, 221, 221, 0.73);
+	padding: 1.2rem;
+}
+
+.iamtom {
+	display: block;
+	font-family: var(--font-repro);
+	font-weight: 700;
+	font-size: 3rem;
+	line-height: 1.2;
+	color: #000;
+	background: #4080c2;
+}
+
+.video, .bottom {
+	display: block;
+	font-family: "Routed Gothic", monospace;
+	font-size: 1.2rem;
+	line-height: 1.2;
+}
+
+.button-5 {
+	display: inline-block;
+	font-family: var(--font-repro);
+	font-weight: 700;
+	font-size: 1.75rem;
+	line-height: 1.2;
+	color: rgba(0, 0, 0, 0.85);
+	background: #fff;
+	border: 0.2rem solid rgba(0, 0, 0, 0.85);
+	padding: 0.7rem 1rem;
+	filter: drop-shadow(0.3rem 0.3rem 0 rgba(0, 0, 0, 0.85));
+}
+
+.icon { width: 1em; height: 1em; vertical-align: -0.15em; fill: currentColor; }
+
+/* --- columns (Cargo column-set: 12 units, 1rem default gutter) ----------- */
+column-set {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	column-gap: var(--gutter, 1rem);
+	width: 100%;
+}
+column-unit { display: block; grid-column: span var(--span, 12); min-width: 0; }
+
+/* --- media ---------------------------------------------------------------- */
+media-item {
+	display: inline-block;
+	vertical-align: top;
+	width: 100%;
+	max-width: 100%;
+	aspect-ratio: var(--w) / var(--h);
+}
+media-item > a { display: block; height: 100%; }
+media-item img, media-item video, media-item iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	border-radius: 3px;
+	object-fit: cover;
+}
+media-item.zoomable img { cursor: zoom-in; }
+
+gallery-columnized { display: flex; gap: var(--gutter, 1rem); width: 100%; }
+.gc-col { flex: 1; display: flex; flex-direction: column; gap: var(--gutter, 1rem); min-width: 0; }
+
+/* image zoom (replaces Cargo "quick view") */
+.lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 3rem;
+	background: #fff;
+	cursor: zoom-out;
+}
+.lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+/* --- mobile mode ------------------------------------------------------------ */
+@media (max-aspect-ratio: 4/5), (min-aspect-ratio: 2/3) and (max-height: 500px) {
+	.mobile-only { display: flex; }
+	.desktop-only { display: none; }
+
+	.page-layout,
+	#nav .page-layout { max-width: 100%; }
+	.page-content { padding: calc(3rem * var(--mobile-pad)); }
+	#front-page .page-content { padding-top: calc(1rem * var(--mobile-pad)); }
+	#header-mobile .page-content { padding-top: calc(2.5rem * var(--mobile-pad)); padding-bottom: 0; }
+	#nav .page-layout,
+	#nav .page-content { padding: calc(3.6rem * var(--mobile-pad)); }
+
+	.caption { padding: calc(1.2rem * var(--mobile-pad)); }
+	h1 { font-size: 6rem; line-height: 0.9; }
+	h2 { font-size: 1.2rem; }
+
+	column-set { grid-template-columns: minmax(0, 1fr); }
+	column-unit { grid-column: auto; }
+
+	/* galleries collapse to one column, in original order */
+	gallery-columnized { flex-direction: column; }
+	.gc-col { display: contents; }
+
+	.lightbox { padding: 10px; }
+}
