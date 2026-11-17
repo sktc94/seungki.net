@@ -4,7 +4,8 @@
     py build.py serve      build, then preview at http://localhost:8000
 
 Edit content in src/ (pages/*.html, header.html, header-mobile.html, nav.html),
-styles in static/site.css, then rebuild.
+styles in static/site.css, then rebuild. A folder like src/pages/echoes/ is a
+standalone page, copied as-is to /echoes/.
 """
 import re, shutil, sys
 from pathlib import Path
@@ -137,6 +138,10 @@ def build():
             html = mark_active(html, url)
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(html, encoding="utf8")
+    # standalone pages: a folder in src/pages/ is copied as-is (own HTML/CSS, no site header or nav)
+    for d in (SRC / "pages").iterdir():
+        if d.is_dir():
+            shutil.copytree(d, OUT / d.name, dirs_exist_ok=True)
     print(f"built {len(pages)} pages into {OUT}")
 
 

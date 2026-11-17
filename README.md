@@ -11,6 +11,7 @@ Static rebuild of the Cargo site, hosted on GitHub Pages.
 | Project index + footer (bottom of every page) | `src/nav.html` |
 | Styles | `static/site.css` |
 | Images / videos | `static/media/` → referenced as `/media/name.jpg` |
+| Standalone pages (own design, no site menu) | a folder in `src/pages/`, e.g. `src/pages/echoes/index.html` → `/echoes/`, copied as-is |
 
 Then rebuild and preview:
 

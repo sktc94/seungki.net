@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Echoes: Sixteen Cuts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;650&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: an editor's honest look back; calm, exact, a little tender
+   IDEA: an edit bay's version stack: every cut a track, laid out by real runtime
+   PICTURE: sixteen filmstrips stacked oldest to newest, length = runtime, with pins
+   COLOUR and TYPE: corridor blue-black ground, paper white, scarf red for pins; Archivo + Inter
+   LAYOUT: finding + figures, the stack full width, then a two-up viewer with notes */
+:root{color-scheme:light dark;--bg:light-dark(#f7f8fa,#0d1319);--panel:light-dark(#fff,#141c24);--ink:light-dark(#121a22,#e9eef3);--mute:light-dark(#5b6672,#8e9aa6);--line:light-dark(#dde2e8,#24303b);--acc:#d9374f;--trk:light-dark(#e9edf1,#0a0f14)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Archivo,Inter,sans-serif;font-weight:650;line-height:1.08;margin:0;text-wrap:balance}
+h1{font-size:clamp(32px,4.4vw,50px)}h2{font-size:24px}h3{font-size:17px}
+.band{padding:clamp(24px,3.5vw,52px) max(4vw,16px)}.wrap{max-width:1320px;margin:0 auto}
+.lede{max-width:68ch;color:var(--mute);margin:12px 0 0}
+.figs{display:flex;flex-wrap:wrap;gap:12px 36px;margin-top:22px}.figs b{display:block;font:650 28px/1.1 Archivo,sans-serif;font-variant-numeric:tabular-nums}.figs span{color:var(--mute);font-size:14px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--mute);margin:18px 0 10px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.stack{display:grid;gap:5px}
+.row{display:grid;grid-template-columns:minmax(150px,210px) minmax(0,1fr);gap:12px;align-items:center;cursor:pointer;border-radius:6px;padding:3px 4px}
+.row:hover,.row.on{background:light-dark(#e8edf3,#18222c)}.row.on .lab b{color:var(--acc)}
+.lab{font-size:13px;line-height:1.25;border-left:4px solid var(--c);padding-left:8px}.lab b{font-weight:600;font-size:14px}.lab small{color:var(--mute);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trk{position:relative;height:46px}
+.strip{position:absolute;inset:0 auto 0 0;background:var(--trk);border-radius:3px;overflow:hidden;display:flex}
+.strip div{flex:none;height:100%;background-repeat:no-repeat}
+.cut{position:absolute;top:0;width:1px;height:6px;background:light-dark(#0008,#fff8)}
+.pin{position:absolute;top:-4px;width:12px;height:12px;min-height:0;margin-left:-6px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--acc);border:2px solid var(--panel);cursor:pointer;padding:0}
+.ph{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--acc);pointer-events:none}
+.dur{position:absolute;top:50%;transform:translateY(-50%);font-size:12px;color:var(--mute);margin-left:8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.none{position:absolute;inset:0;width:62%;border:1px dashed var(--line);border-radius:3px;display:flex;align-items:center;padding:0 12px;font-size:13px;color:var(--mute)}
+.view{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,360px);gap:24px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pane{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
+.pane header{min-height:44px;display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px;font-size:14px}
+.stage{aspect-ratio:16/9;display:flex;align-items:center;background:#000;border-radius:4px;overflow:hidden}
+.rate{font:600 12px/1 Inter,sans-serif;padding:4px 7px;border-radius:999px;background:var(--line);color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}.rate.fast{background:var(--acc);color:#fff}.rate.slow{background:#2f6fbf;color:#fff}
+.frame{width:100%;background:#000 no-repeat;border-radius:4px;position:relative;overflow:hidden}
+.frame video{position:absolute;inset:0;width:100%;height:100%;background:#000;object-fit:cover}
+.tc{font-variant-numeric:tabular-nums;color:var(--mute);font-size:13px;white-space:nowrap}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+input[type=range]{flex:1 1 260px;accent-color:var(--acc);height:44px}
+button,select,.btn{font:500 15px Inter,sans-serif;min-height:44px;padding:0 14px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+button.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}.seg button{border:0;border-radius:0}.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.side{display:grid;gap:16px;align-content:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:10px 0 0;font-size:14px}dt{color:var(--mute)}dd{margin:0;font-variant-numeric:tabular-nums}
+.obs{font-size:14px;margin:12px 0 0}
+textarea{width:100%;font:16px/1.4 Inter,sans-serif;padding:10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:84px}
+.notes{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px;max-height:420px;overflow:auto}
+.notes li{border-left:3px solid var(--acc);padding:4px 0 4px 10px;font-size:14px}.notes li.draft{border-left-style:dashed}
+.notes a{color:var(--ink);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.notes .x{min-height:28px;padding:0 8px;font-size:12px;margin-left:6px;color:var(--mute)}
+.small{font-size:13px;color:var(--mute)}
+details{margin-top:10px}summary{cursor:pointer;font-size:14px}
+.hdr{display:grid;grid-template-columns:minmax(150px,210px) minmax(0,1fr);gap:12px;padding:0 4px;margin-bottom:6px}.hdr .trk{height:34px}
+.chn{position:absolute;bottom:0;white-space:nowrap;text-overflow:ellipsis;font-size:12px;line-height:1.15;color:var(--mute);border-left:1px solid var(--line);padding-left:5px;overflow:hidden}
+.seg2{position:absolute;top:0;bottom:0;display:flex;overflow:hidden;border-radius:2px;background:var(--trk)}.seg2>div{flex:none;height:100%;background-repeat:no-repeat}
+.room{position:absolute;left:3px;bottom:3px;font:600 11px/1 Inter,sans-serif;color:#fff;padding:3px 5px;border-radius:3px;pointer-events:none}
+.gap{position:absolute;top:45%;height:1px;background:var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.chips button{min-height:36px;font-size:13px;padding:0 10px}
+@media(max-width:600px){.hdr{grid-template-columns:1fr}.hdr>div:first-child{display:none}.chn{font-size:10px}}
+@media(max-width:900px){.view{grid-template-columns:1fr}}
+@media(max-width:600px){.row{grid-template-columns:1fr;gap:4px}.two{grid-template-columns:1fr}.trk{height:38px}}
+@media(prefers-reduced-motion:no-preference){.row{transition:background .15s}}
+</style>
+</head>
+<body>
+<section class="band"><div class="wrap">
+  <h1>Echoes of the Corridor: seventeen cuts, four visual languages before the shoot</h1>
+  <p class="lede">Every version from the first animatic (Oct 2024) to the finished master (Feb 2026), lined up by the film’s ten chapters, so you can see which parts grew, shrank or swapped places. Click a track to open it, compare any two, and pin the moments worth talking about.</p>
+  <div class="figs">
+    <div><b>5:33 → 10:08</b><span>animatic to screened cut</span></div>
+    <div><b>12:24</b><span>first live-action rough cut</span></div>
+    <div><b>3 frame rates</b><span>24, 23.976 and 29.97 in one previs (09)</span></div>
+    <div><b>Rooms flipped</b><span>office-first until 02, dining-first from 03 on</span></div>
+  </div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+  <div class="ctl" style="margin:0 0 6px"><span class="small">Lay out tracks by</span><div class="seg" role="group" aria-label="Layout"><button id="lCh" aria-pressed="true">Chapter</button><button id="lRt" aria-pressed="false">Runtime</button></div></div>
+  <div class="legend" id="legend"></div>
+  <div class="hdr" id="hdr"><div></div><div class="trk" id="hdrT"></div></div>
+  <div class="stack" id="stack" role="listbox" aria-label="Versions"></div>
+  <p class="small">In chapter layout each column is one chapter and every track starts it at the same place, so you can see what grew and what moved. Chapter starts are hand-marked from 4-second frames (±4 s). Ticks = detected cuts (automatic, approximate). Shots taken from feature films are pixelated here (parts of 05 and 06, almost all of 07); the Unreal shots stay clear. Load the folder below to play the originals locally.</p>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap view">
+  <div>
+    <div class="two">
+      <div class="pane"><header><b id="aT"></b><span class="tc" id="aTc"></span></header><div class="stage"><div class="frame" id="aF"></div></div></div>
+      <div class="pane"><header><select id="bSel" aria-label="Compare with"></select><span style="display:flex;gap:8px;align-items:center"><span class="rate" id="bRate"></span><span class="tc" id="bTc"></span></span></header><div class="stage"><div class="frame" id="bF"></div></div></div>
+    </div>
+    <div class="ctl">
+      <button id="play" class="pri" disabled>Play</button>
+      <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Scrub">
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="ctl">
+      <span class="small">Line up B by</span>
+      <div class="seg" role="group" aria-label="Sync mode"><button id="mCh" aria-pressed="true">Same chapter</button><button id="mPct" aria-pressed="false">Same % of runtime</button><button id="mTc" aria-pressed="false">Same timecode</button></div>
+      <label class="btn" style="display:inline-flex;align-items:center">Load ECHOES folder<input id="dir" type="file" webkitdirectory multiple hidden></label>
+      <span class="small" id="dirMsg">Stills only. Load the folder to play the real files (they stay on this computer).</span>
+    </div>
+  </div>
+  <div class="side">
+    <div class="card" id="info"></div>
+    <div class="card">
+      <h3>Notes</h3>
+      <p class="small" style="margin:4px 0 8px">Pinned to version A at the current time. Dashed ones are first-pass notes from the scan: edit or delete them.</p>
+      <textarea id="nt" placeholder="What to not repeat here…"></textarea>
+      <div class="ctl" style="margin-top:8px"><button class="pri" id="add">Pin at <span id="addTc">0:00</span></button><button id="copy">Copy all notes</button></div>
+      <ul class="notes" id="notes"></ul>
+      <details><summary>Paste notes back in</summary><textarea id="imp" placeholder="Paste copied notes (JSON)"></textarea><button id="doImp" style="margin-top:6px">Replace notes</button></details>
+    </div>
+  </div>
+</div></section>
+
+<script>
+{
+const PH={an:['Animatic','#9aa3ad'],gb:['Unreal blockout','#6f9fd0'],rf:['Film-reference cut','#c8a04c'],dh:['Digital-human previs','#4fb08f'],rc:['Live-action rough cut','#e0834f'],lk:['Lock & finish','#d9374f']};
+const V=[
+['01','29 Oct 2024','Blue animatic','an',333.4,1080,59,'1920×1080 · 23.976','Hand-drawn boards with temp sound. The whole story already reads in 5½ minutes.'],
+['02','12 Nov 2024','Previs with lines','gb',465.9,1080,83,'1920×1080 · 23.976','First Unreal pass with dialogue subtitles and timecode burn-in. The playground memory switches to comic-book panels: a second visual language inside one review.'],
+['03','19 Nov 2024','UE camera v2','gb',446.6,1080,84,'1920×1080 · 23.976','Real Unreal cameras, but characters are white boxes. Camera and blocking can be judged; performance and eyelines can’t.'],
+['04','26 Nov 2024','Previs 1126','gb',451.3,1080,61,'1920×1080 · 23.976','Boxes become mannequins. Heavy depth of field and motion blur on the corridor runs.'],
+['05','3 Dec 2024','VO sequence 1','rf',451.3,1080,47,'1920×1080 · 23.976','Feature-film clips stand in for the park and dinner scenes between Unreal shots. Reviews start reacting to someone else’s actors and lighting.'],
+['06','10 Dec 2024','Previs update','rf',458.0,1080,76,'1920×1080 · 23.976','Mix of film clips, mannequins and stylized robot characters. Three looks in one cut.'],
+['07','28 Dec 2024','New pacing','rf',543.2,1080,75,'1920×1080 · 23.976','Rebuilt almost entirely from film references with numbered action lines (“1 hesitates”). Runtime jumps to 9 min.'],
+['08','8 Jan 2025','Team previs, Jan','dh',540.6,1080,48,'1920×1080 · mixed 23.976 / 29.97','Digital humans, shot names burned in (ext_park_sc001_003_001). Exterior building shots render at 29.97 while the rest is 23.976.'],
+['09','21 Jan 2025','Jan previs, fall','dh',540.6,1080,48,'1920×1080 · mixed 24 / 23.976 / 29.97','Same edit with autumn foliage. Three frame rates now live in one timeline.'],
+['10','4 Feb 2025','Sequence final','dh',499.2,1080,37,'1920×1080 · 24','Lead recast as a woman, scenes renumbered sc001–sc014, every shot at 24 fps. Tightest previs at 8:19.'],
+['11','22 Mar 2025','Rough cut v01','rc',744.4,810,43,'1890×810 · 24','First live-action assembly runs 12:24, about 4 minutes past the locked previs.'],
+['12','7 Apr 2025','Rough cut v02','rc',570.8,810,45,'1890×810 · 24','Down to 9:31.'],
+['13','15 Apr 2025','Rough cut v04','rc',556.6,810,84,'1890×810 · 24','Cutting pattern nearly doubles as coverage gets used.'],
+['14','17 Apr 2025','Picture locked','lk',558.9,810,71,'1890×810 · 24','Picture lock at 9:19.'],
+['15','22 Apr 2025','VFX WIP','lk',558.9,810,72,'1890×810 · 24','Same timing as lock; environments and screens being replaced.'],
+['16','Apr 2025','Screened','lk',607.6,804,48,'1920×1080 with 2.39 letterbox · 24','The cut shown at the screening. Same edit and chapter timing as the finished master; the master later replaced the building-in-the-clouds VFX and adjusted the office scene.'],
+['17','Feb 2026','Finished master','lk',607.5,804,71,'ProRes 4444 XQ master · 2.39 · 24 (scanned from a 640×268 copy)','Same edit and timing as the screened cut. Changed: the building in the clouds is redesigned (a white tower became stacked glass terraces) at about 1:48, 4:12 and 6:12, and the office scene (about 5:08–6:08) is slightly re-timed and reframed.']
+].map(r=>({id:r[0],date:r[1],name:r[2],ph:r[3],dur:r[4],h:r[5]==1080?180:(r[5]==804?134:138),cuts:r[6],fmt:r[7],obs:r[8],n:r[4]?Math.round(r[4]/4)+0:0}));
+const N={'01':84,'02':117,'03':112,'04':113,'05':113,'06':115,'07':136,'08':135,'09':135,'10':125,'11':186,'12':143,'13':139,'14':140,'15':140,'16':152,'17':152};
+V.forEach(v=>v.n=N[v.id]||0);
+const CH=['Real world','Building','Corridor','1st room','Corridor','2nd room','Corridor','3rd room','Back to reality','Credits'];
+const RM={D:['Dining','#c9773e'],O:['Office','#2f9fbf'],L:['Library','#5e9a45']};
+const CHP={'01':[[0,84,92,124,164,172,200,208,244,292],'ODL'],'02':[[0,112,124,156,208,236,308,316,380,396],'ODL'],'03':[[0,124,140,172,232,260,316,320,376,420],'DOL'],'04':[[0,124,140,172,236,260,320,332,396,440],'DOL'],'05':[[0,124,140,172,236,260,320,332,396,null],'DOL'],'06':[[0,124,136,168,252,280,340,352,416,null],'DOL'],'07':[[0,120,144,184,292,300,368,376,500,null],'DOL'],'08':[[0,124,144,196,292,308,368,384,484,null],'DOL'],'09':[[0,124,144,196,292,308,368,384,484,null],'DOL'],'10':[[0,120,150,170,270,290,360,370,440,490],'DOL'],'11':[[0,124,144,160,340,400,500,524,664,null],'DOL'],'12':[[0,112,132,148,308,320,384,392,520,null],'DOL'],'13':[[0,100,132,148,244,284,376,384,504,540],'DOL'],'14':[[0,100,132,148,244,284,372,384,504,544],'DOL'],'15':[[0,100,132,148,244,284,372,384,504,544],'DOL'],'16':[[0,100,132,148,244,284,372,384,504,544],'DOL'],'17':[[0,100,132,148,244,284,372,384,504,544],'DOL']};
+const segs=v=>{const c=CHP[v.id];if(!c)return[];const st=c[0],o=[];st.forEach((s,i)=>{if(s==null)return;let e=v.dur;for(let j=i+1;j<st.length;j++)if(st[j]!=null){e=st[j];break}o.push({c:i,s,e,room:i==3?c[1][0]:i==5?c[1][1]:i==7?c[1][2]:''})});return o};
+const segAt=(v,t)=>{const g=segs(v);return g.find(x=>t>=x.s&&t<x.e)||g[g.length-1]};
+const roomsOf=v=>CHP[v.id]?CHP[v.id][1].split('').map(k=>RM[k][0]).join(' → '):'';
+const CUTS={"01":[3.7,22.1,55.7,58.5,66.8,80.3,81.9,91.0,93.0,94.9,99.8,100.9,102.8,104.9,108.6,110.5,112.4,116.0,118.7,120.6,124.2,126.0,133.1,137.5,139.5,143.9,151.1,156.0,159.2,166.9,171.6,178.0,178.5,181.1,182.4,183.5,184.9,186.2,187.2,188.4,190.4,191.7,196.6,201.5,203.3,205.9,210.0,216.4,225.1,237.8,241.2,244.2,251.8,254.2,256.0,261.0,272.6,284.3,289.2],"02":[3.7,10.2,18.6,24.1,35.5,41.8,43.9,45.3,47.4,50.4,64.4,70.9,74.2,78.7,81.5,89.6,93.5,94.9,98.2,101.2,102.6,104.6,108.3,110.2,111.6,112.4,119.7,122.7,126.9,132.6,134.5,136.3,138.3,143.9,146.6,148.4,152.0,153.8,158.8,160.9,165.3,182.6,185.7,190.6,206.4,208.6,212.9,216.2,219.1,220.9,223.3,227.1,234.2,236.8,239.1,241.8,245.5,253.8,277.6,283.0,289.1,294.5,307.8,313.6,316.2,318.2,320.2,333.8,339.0,342.7,343.5,352.8,358.9,362.0,367.0,372.0,378.4,380.0,383.7,395.9,397.9,405.9,410.9],"03":[13.8,14.2,20.1,20.7,24.9,25.2,26.2,27.6,30.2,31.0,35.0,36.5,39.8,40.7,44.6,45.7,61.8,71.0,73.3,80.3,82.8,92.8,97.2,99.9,108.6,112.0,118.3,122.2,127.4,128.8,129.5,136.9,139.8,149.7,155.4,157.3,161.0,163.7,165.6,171.0,173.6,175.3,178.6,180.8,183.9,186.1,189.6,191.8,196.9,198.7,200.9,203.0,206.3,209.0,210.8,212.5,214.8,219.4,221.5,223.3,225.5,227.6,229.7,245.4,247.8,251.5,265.2,267.3,271.7,289.0,292.1,297.0,312.8,313.4,326.5,354.0,363.7,373.7,386.8,393.6,397.4,403.2,405.9,413.5],"04":[8.3,14.0,14.3,20.4,20.7,24.9,25.2,30.2,31.0,48.8,50.0,54.1,60.6,62.4,65.1,68.7,73.3,82.8,109.7,121.5,125.1,129.1,133.0,136.6,142.0,143.9,152.7,159.2,163.4,164.5,168.2,170.6,173.3,177.8,180.5,181.8,189.3,198.4,206.2,212.6,220.0,225.1,234.1,237.0,240.6,247.3,254.8,277.2,291.6,294.0,306.7,318.4,319.0,325.0,334.5,369.3,396.3,398.6,409.4,418.4,426.5],"05":[8.3,14.0,14.3,20.1,20.4,24.6,25.0,30.2,31.0,67.8,122.2,125.1,129.1,133.0,136.6,147.5,152.7,159.1,163.4,164.5,168.2,170.6,179.7,196.2,212.6,222.1,227.2,234.1,240.6,247.3,251.0,254.8,277.2,291.6,294.0,306.7,318.4,319.0,325.0,334.5,369.3,396.3,398.6,409.4,418.4,426.5,441.0],"06":[8.3,14.0,14.3,20.1,20.4,24.6,25.0,32.1,36.4,39.2,40.6,42.5,65.1,68.7,72.1,122.2,134.0,136.7,152.4,156.6,160.7,161.7,163.0,165.0,167.9,175.3,184.6,191.7,196.1,207.5,212.9,220.2,222.9,225.4,227.4,229.3,230.9,232.2,233.4,234.6,235.9,237.3,239.1,240.5,251.7,257.4,268.2,272.0,275.7,280.7,292.2,308.2,319.0,338.0,338.6,345.2,350.0,357.0,360.6,363.7,366.0,366.7,369.5,371.1,372.7,378.0,383.3,389.1,395.9,397.7,409.4,415.9,425.6,429.0,441.3,451.2],"07":[1.5,4.0,6.2,10.5,11.0,16.0,16.3,19.4,19.8,23.3,25.7,29.7,31.6,39.7,49.9,68.4,82.8,107.0,112.4,114.7,119.7,131.3,142.1,150.7,160.0,163.9,169.8,176.8,181.1,193.9,206.9,212.7,224.9,228.7,233.7,236.9,241.9,246.8,249.4,254.3,259.3,262.8,267.7,272.8,275.9,278.1,280.1,283.4,288.4,290.8,293.4,295.9,307.1,312.3,315.8,321.9,326.7,332.1,342.4,346.1,360.4,365.3,368.1,375.6,400.4,405.4,412.5,416.2,421.1,426.1,431.1,497.7,505.0,518.8,523.7],"08":[1.5,5.5,6.5,12.0,12.6,16.2,16.5,19.4,19.8,23.3,25.2,29.2,31.2,39.2,50.2,62.2,68.2,107.3,112.2,131.3,142.1,236.8,293.4,295.9,307.1,315.6,322.3,326.2,332.4,332.7,341.9,356.3,360.4,365.3,382.3,390.0,398.4,406.0,413.0,417.0,421.1,426.1,431.1,452.1,464.1,504.7,518.7,523.7],"09":[1.5,5.5,6.5,12.0,12.6,16.2,16.5,19.4,19.8,23.3,25.2,29.2,31.2,39.2,50.2,62.2,68.2,107.2,112.2,131.3,142.1,236.8,293.4,295.9,307.1,315.6,322.3,326.2,332.4,332.7,341.9,356.3,360.4,365.3,382.3,390.0,398.4,406.0,413.0,417.0,421.1,426.1,431.1,452.1,464.1,504.7,518.7,523.7],"10":[9.1,11.0,102.9,109.2,120.3,168.6,186.4,212.5,222.6,226.5,241.4,248.3,260.1,265.2,271.7,274.4,282.0,286.0,295.4,302.2,302.3,308.2,358.2,369.9,380.9,384.3,387.8,392.4,395.9,400.8,405.2,409.2,412.2,434.9,449.5,466.1,476.2],"11":[7.6,23.1,117.2,129.2,159.7,211.5,264.5,270.8,272.8,286.5,292.2,297.8,310.2,339.7,368.0,370.7,381.3,386.8,394.2,400.0,409.4,415.3,418.5,438.5,440.3,442.7,445.2,447.5,450.1,452.5,455.0,457.3,459.7,459.9,461.6,501.0,514.5,522.3,661.0,674.5,681.8,722.6,738.4],"12":[3.6,6.9,16.8,103.5,117.9,148.3,182.5,235.0,237.8,249.4,255.5,261.3,263.3,275.8,284.6,290.1,305.2,307.2,308.6,310.0,311.4,317.3,319.8,324.6,327.0,330.2,343.9,345.8,348.1,350.2,354.9,355.5,357.9,360.4,361.1,381.6,384.2,388.6,391.8,501.5,520.6,530.6,541.2,549.0,553.7],"13":[7.9,10.7,13.9,129.6,147.3,167.4,181.0,184.5,207.6,214.5,214.6,216.3,216.5,218.0,218.2,219.5,219.7,221.6,223.1,225.6,228.2,229.9,230.7,231.4,232.3,233.0,233.8,234.2,234.3,235.1,235.5,235.9,237.0,237.3,237.7,238.2,243.9,263.3,271.9,279.5,282.0,290.3,294.5,301.7,304.2,307.3,321.0,322.5,324.7,328.1,328.5,330.8,331.6,332.8,332.9,334.0,334.2,373.2,378.7,380.2,382.9,383.0,386.0,386.2,388.4,388.5,426.0,426.2,433.2,433.4,456.1,456.2,468.4,480.8,480.9,488.1,488.2,501.2,501.3,508.8,519.4,527.2,531.9,540.6],"14":[7.8,10.7,13.9,100.2,130.8,147.0,167.1,180.7,184.1,207.3,214.1,214.2,216.0,216.1,217.7,217.8,219.2,219.4,221.2,222.8,225.2,227.9,229.5,230.4,231.1,232.0,232.6,233.5,233.8,234.0,234.8,235.2,235.6,236.6,237.0,237.4,237.9,243.5,263.0,271.5,279.2,281.7,290.0,294.1,301.3,303.8,307.0,320.6,322.2,324.3,327.8,328.2,330.5,331.2,332.4,332.5,333.7,333.8,335.1,335.2,372.9,378.3,382.7,385.7,388.2,503.7,511.2,521.8,531.5,534.8,542.9],"15":[7.8,10.7,13.9,100.2,130.8,147.0,167.1,180.7,184.1,207.3,214.1,214.2,216.0,216.1,217.7,217.8,219.2,219.4,221.2,222.8,225.2,227.9,229.5,230.4,231.1,232.0,232.6,233.5,233.8,234.0,234.8,235.2,235.6,236.6,237.0,237.4,237.9,243.5,252.5,263.0,271.5,279.2,281.7,290.0,294.1,301.3,303.8,307.0,320.6,322.2,324.3,327.8,328.2,330.5,331.2,332.4,332.5,333.7,333.8,335.1,335.2,372.9,378.3,382.7,385.7,388.2,503.7,511.2,521.8,531.5,534.8,542.9],"16":[10.7,100.2,107.2,130.8,147.0,167.1,180.7,184.1,207.3,214.1,214.2,216.0,216.1,217.7,217.8,219.2,219.4,221.2,222.8,229.5,230.4,231.1,232.0,233.5,234.0,234.8,235.2,236.6,237.0,237.4,237.9,252.5,271.5,281.7,294.1,303.8,307.0,320.6,324.3,327.8,331.2,332.5,333.7,335.1,335.2,372.9,378.3,542.9],"17":[10.7,13.9,100.2,107.2,131.4,147.0,167.1,180.7,184.1,207.3,212.8,214.1,214.2,216.0,216.1,217.7,217.8,219.2,219.4,221.2,222.8,225.2,229.5,230.4,231.1,232.0,232.6,233.5,234.0,234.8,235.2,235.6,236.6,237.0,237.4,237.9,252.5,262.7,271.6,279.2,281.7,290.0,294.1,301.4,303.8,307.0,315.4,317.2,319.2,327.8,328.2,330.5,331.2,332.4,332.5,333.7,333.8,335.1,335.5,372.9,378.3,382.6,385.7,388.2,424.5,489.1,505.8,511.1,531.5,534.8,542.9]};
+const SEED=[
+['01',2,'Animatic tells the whole story in 5:33. Every later version adds minutes, not clarity.'],
+['02',322,'Comic-book panels drop into an Unreal previs: reviewers now judge two visual languages at once.'],
+['03',42,'White boxes for people. Good for camera; nobody can read performance from this.'],
+['05',34,'Film footage stands in here. The more finished it looks, the more the room reviews the wrong actors.'],
+['07',10,'Whole cut from film references. Fast to build, but every frame is someone else’s casting and lighting.'],
+['08',130,'Exterior shot rendered at 29.97 inside a 23.976 timeline. Mixed rates judder when cut together.'],
+['09',0,'Three frame rates in one previs. Fix the project frame rate before anyone reviews motion.'],
+['10',0,'Single 24 fps timeline, clean shot naming: the first version that is easy to review.'],
+['11',0,'First rough cut is 12:24, about 4 minutes over the last previs.'],
+['17',116,'Building in the clouds redesigned after the screening: compare with 16 here.']
+].map((s,i)=>({id:'s'+i,v:s[0],t:s[1],x:s[2],draft:1}));
+let notes;try{notes=JSON.parse(localStorage.getItem('echoesNotes'))}catch(e){}
+if(!Array.isArray(notes))notes=SEED.slice();
+const save=()=>{try{localStorage.setItem('echoesNotes',JSON.stringify(notes))}catch(e){}};
+const $=s=>document.getElementById(s);
+const fmt=t=>{t=Math.max(0,Math.round(t));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
+const MAX=744.4;const files={};const YT0='https://youtu.be/HomvyrhbxvA';let yt=YT0;try{yt=localStorage.getItem('echoesYT')||YT0}catch(e){}
+let A=V[0],B=V[9],tA=0,mode='ch',lay='ch',playing=false;
+const COLW=CH.map((_,i)=>Math.max(...V.filter(v=>v.dur).map(v=>{const g=segs(v).find(x=>x.c==i);return g?g.e-g.s:0})));
+const COLX=COLW.map((_,i)=>COLW.slice(0,i).reduce((a,b)=>a+b,0)),TOT=COLW.reduce((a,b)=>a+b,0);
+const byId=id=>V.find(v=>v.id==id);
+function tile(el,v,t){
+  if(!v.n){el.style.backgroundImage='none';return}
+  const k=Math.min(v.n-1,Math.max(0,Math.floor(t/4))),rows=Math.ceil(v.n/10),c=k%10,r=Math.floor(k/10);
+  el.style.backgroundImage=`url(s/${v.id}.jpg)`;el.style.backgroundSize=`1000% ${rows*100}%`;
+  el.style.backgroundPosition=`${c/9*100}% ${rows>1?r/(rows-1)*100:0}%`;
+}
+$('legend').innerHTML=Object.values(PH).map(p=>`<span><i style="background:${p[1]}"></i>${p[0]}</span>`).join('');
+$('stack').innerHTML=V.map(v=>`<div class="row" role="option" tabindex="0" data-id="${v.id}" style="--c:${PH[v.ph][1]}"><div class="lab"><b>${v.id} · ${v.name}</b><small>${v.date} · ${PH[v.ph][0]}</small></div><div class="trk" data-id="${v.id}"></div></div>`).join('');
+$('bSel').innerHTML=V.map(v=>`<option value="${v.id}">B: ${v.id} · ${v.name}</option>`).join('');
+function geo(W){const k=lay=='ch'?(W-8)/TOT:(W-44)/MAX;return{k,pos:(v,t)=>{if(lay!='ch')return t*k;const g=segAt(v,t);return g?(COLX[g.c]+(t-g.s))*k:0}}}
+function tiles(v,x0,w,t0,t1,H){const tw=H*320/v.h,cnt=Math.max(1,Math.ceil(w/tw));let s='';for(let i=0;i<cnt;i++)s+=`<div style="width:${tw}px" data-t="${t0+(i+.5)/cnt*(t1-t0)}"></div>`;return s}
+function drawTracks(){
+  const ht=$('hdrT');$('hdr').style.display=lay=='ch'?'':'none';
+  if(lay=='ch'){const W=ht.clientWidth,k=(W-8)/TOT;ht.innerHTML=CH.map((n,i)=>`<span class="chn" style="left:${COLX[i]*k}px;width:${COLW[i]*k}px" title="${n}">${i+1}${COLW[i]*k>46?' '+n:''}</span>`).join('')}
+  document.querySelectorAll('#stack .trk').forEach(tr=>{
+    const v=byId(tr.dataset.id),W=tr.clientWidth,H=tr.clientHeight;
+    if(!v.dur){tr.innerHTML=`<div class="none">${files[v.id]?'Local file loaded':`Finished master (Feb 2026):&nbsp;<a href="${esc(yt)}" target="_blank" rel="noopener" style="color:inherit">watch on YouTube</a>`}</div>`;return}
+    const G=geo(W);let s='';
+    if(lay=='ch'){for(const g of segs(v)){const x=COLX[g.c]*G.k,w=(g.e-g.s)*G.k;s+=`<div class="seg2" style="left:${x}px;width:${w}px">${tiles(v,x,w,g.s,g.e,H)}</div>`;if(g.room)s+=`<span class="room" style="left:${x+3}px;background:${RM[g.room][1]}">${RM[g.room][0]}</span>`}}
+    else{const w=v.dur*G.k;s+=`<div class="strip" style="width:${w}px">${tiles(v,0,w,0,v.dur,H)}</div><span class="dur" style="left:${w}px">${fmt(v.dur)}</span>`}
+    s+=(CUTS[v.id]||[]).map(c=>`<span class="cut" style="left:${G.pos(v,c)}px"></span>`).join('');
+    s+=notes.filter(n=>n.v==v.id).map(n=>`<button class="pin" title="${esc(n.x)}" aria-label="Note at ${fmt(n.t)}" data-v="${v.id}" data-t="${n.t}" style="left:${G.pos(v,n.t)}px"></button>`).join('');
+    if(v===A)s+=`<span class="ph" style="left:${G.pos(v,tA)}px"></span>`;
+    tr.innerHTML=s;tr.querySelectorAll('.strip div,.seg2 div').forEach(d=>tile(d,v,+d.dataset.t));
+  });
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function tB(){const dB=B.dur||(vid('b')&&vid('b').duration)||0;if(mode=='tc')return Math.min(tA,dB);
+  if(mode=='ch'&&A.dur&&B.dur){const a=segAt(A,tA),b=a&&segs(B).find(x=>x.c==a.c);if(b)return b.s+(tA-a.s)/(a.e-a.s)*(b.e-b.s)}const dA=A.dur||(vid('a')&&vid('a').duration)||1;return tA/dA*dB}
+function rateB(){const dA=A.dur||(vid('a')&&vid('a').duration)||0,dB=B.dur||(vid('b')&&vid('b').duration)||0;if(mode=='tc'||!dA||!dB)return 1;
+  if(mode=='ch'&&A.dur&&B.dur){const a=segAt(A,tA),b=a&&segs(B).find(x=>x.c==a.c);if(b)return (b.e-b.s)/(a.e-a.s)}return dB/dA}
+const vid=p=>$(p+'F').querySelector('video');
+function setVideo(p,v){
+  const f=$(p+'F');f.style.aspectRatio=v.h?`320/${v.h}`:'2.39';
+  const old=f.querySelector('video');
+  if(files[v.id]){if(!old||old.dataset.id!=v.id){f.innerHTML=`<video data-id="${v.id}" playsinline ${p=='b'?'muted':''}></video>`;f.querySelector('video').src=files[v.id]}}
+  else if(old)f.innerHTML='';
+  if(!v.dur&&!files[v.id])f.innerHTML=`<div style="position:absolute;inset:0;display:grid;place-items:center;color:#aaa;font-size:14px;padding:12px;text-align:center">${yt?`<a href="${esc(yt)}" style="color:#fff">Open finished master on YouTube</a>`:'Load the ECHOES folder to play this file'}</div>`;
+}
+function render(seek){
+  const dA=A.dur||(vid('a')&&vid('a').duration)||0;tA=Math.min(tA,dA||tA);
+  $('aT').textContent=`A: ${A.id} · ${A.name}`;$('aTc').textContent=`${fmt(tA)} / ${fmt(dA)}`;
+  const tb=tB();$('bTc').textContent=`${fmt(tb)} / ${fmt(B.dur||(vid('b')&&vid('b').duration)||0)}`;
+  tile($('aF'),A,tA);tile($('bF'),B,tb);
+  {const r=rateB(),el=$('bRate'),a=mode=='ch'&&A.dur?segAt(A,tA):null;el.textContent=`B ×${r.toFixed(2)}`+(Math.abs(r-1)<.05?' about same':r>1?' faster':' slower');el.className='rate'+(r>=1.05?' fast':r<=.95?' slow':'');el.title=mode=='ch'&&a?`B plays this chapter (${CH[a.c]}) at ${r.toFixed(2)}× so it ends when A’s does`:'Playback speed of B relative to A'}
+  if(seek){const a=vid('a'),b=vid('b');if(a&&Math.abs(a.currentTime-tA)>.3)a.currentTime=tA;if(b&&Math.abs(b.currentTime-tb)>.3)b.currentTime=tb}
+  if(!playing)$('scrub').value=dA?tA/dA*1000:0;
+  $('addTc').textContent=fmt(tA);$('play').disabled=!vid('a');
+  document.querySelectorAll('.row').forEach(r=>{r.classList.toggle('on',r.dataset.id==A.id);r.setAttribute('aria-selected',r.dataset.id==A.id)});
+  const c=CUTS[A.id]||[];
+  $('info').innerHTML=`<h2>${A.id} · ${A.name}</h2><p class="small" style="margin:4px 0 0">${A.date} · <span style="color:${PH[A.ph][1]}">●</span> ${PH[A.ph][0]}</p><dl><dt>Runtime</dt><dd>${A.dur?fmt(A.dur):'—'}</dd><dt>Detected cuts</dt><dd>${A.dur?c.length+' (~'+(A.dur/(c.length+1)).toFixed(1)+' s avg shot)':'—'}</dd><dt>Format</dt><dd>${A.fmt}</dd>${CHP[A.id]?`<dt>Rooms</dt><dd>${roomsOf(A)}</dd>`:''}</dl><p class="obs">${A.obs}</p>${A.id=='17'?`<label class="small" for="yt" style="display:block;margin-top:10px">YouTube link (unlisted works for anyone with the link; private only for invited accounts)</label><input id="yt" value="${esc(yt)}" style="width:100%;font:16px Inter;padding:10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink)">`:''}`;
+  const y=$('yt');if(y)y.onchange=()=>{yt=y.value.trim();try{localStorage.setItem('echoesYT',yt)}catch(e){};setVideo('a',A);setVideo('b',B)};
+  const g=segs(A),cur=A.dur?segAt(A,tA):null;
+  $('chips').innerHTML=g.map(x=>`<button data-c="${x.c}" ${cur&&cur.c==x.c?'aria-pressed="true" style="background:var(--ink);color:var(--bg)"':''}>${x.c+1} ${CH[x.c]}</button>`).join('');
+  drawTracks();listNotes();
+}
+function listNotes(){
+  const ns=notes.slice().sort((p,q)=>p.v.localeCompare(q.v)||p.t-q.t);
+  $('notes').innerHTML=ns.length?ns.map(n=>`<li class="${n.draft?'draft':''}"><a data-v="${n.v}" data-t="${n.t}">${n.v} @ ${fmt(n.t)}</a> ${esc(n.x)}<button class="x" data-del="${n.id}" aria-label="Delete note">Delete</button></li>`).join(''):'<li class="small" style="border:0">No notes yet.</li>';
+}
+function pick(id,t){A=byId(id);tA=t||0;setVideo('a',A);setVideo('b',B);const a=vid('a');if(a)a.onloadedmetadata=()=>{a.currentTime=tA;render()};render(true)}
+$('stack').addEventListener('click',e=>{
+  const p=e.target.closest('.pin');if(p){pick(p.dataset.v,+p.dataset.t);return}
+  const tr=e.target.closest('.trk'),row=e.target.closest('.row');if(!row)return;
+  let t=0;if(tr){const v=byId(tr.dataset.id),x=e.clientX-tr.getBoundingClientRect().left;
+    if(lay=='ch'){const k=(tr.clientWidth-8)/TOT,u=x/k;const g=segs(v);let best=g[0];for(const q of g){if(u>=COLX[q.c])best=q}t=best?Math.min(best.e-0.1,best.s+Math.max(0,u-COLX[best.c])):0}
+    else t=Math.max(0,Math.min(v.dur,x/((tr.clientWidth-44)/MAX)))}
+  pick(row.dataset.id,t);
+});
+$('stack').addEventListener('keydown',e=>{const r=e.target.closest('.row');if(!r)return;
+  if(e.key=='Enter'||e.key==' '){e.preventDefault();pick(r.dataset.id,0)}
+  if(e.key=='ArrowDown'||e.key=='ArrowUp'){e.preventDefault();const s=e.key=='ArrowDown'?r.nextElementSibling:r.previousElementSibling;if(s)s.focus()}
+  if(e.key=='ArrowRight'||e.key=='ArrowLeft'){e.preventDefault();tA=Math.max(0,tA+(e.key=='ArrowRight'?4:-4));render(true)}});
+$('chips').onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;const g=segs(A).find(x=>x.c==+b.dataset.c);if(g){tA=g.s;render(true)}};
+$('bSel').onchange=e=>{B=byId(e.target.value);setVideo('b',B);const b=vid('b');if(b)b.onloadedmetadata=()=>render(true);render(true)};
+$('scrub').oninput=e=>{const d=A.dur||(vid('a')&&vid('a').duration)||0;tA=e.target.value/1000*d;render(true)};
+const setMode=m=>{mode=m;$('mCh').setAttribute('aria-pressed',m=='ch');$('mPct').setAttribute('aria-pressed',m=='pct');$('mTc').setAttribute('aria-pressed',m=='tc');render(true)};
+$('mCh').onclick=()=>setMode('ch');
+const setLay=l=>{lay=l;$('lCh').setAttribute('aria-pressed',l=='ch');$('lRt').setAttribute('aria-pressed',l=='rt');drawTracks()};$('lCh').onclick=()=>setLay('ch');$('lRt').onclick=()=>setLay('rt');
+$('mPct').onclick=()=>setMode('pct');$('mTc').onclick=()=>setMode('tc');
+$('play').onclick=()=>{const a=vid('a'),b=vid('b');if(!a)return;
+  if(a.paused){a.play().catch(()=>{});if(b){b.playbackRate=Math.min(4,Math.max(.25,rateB()));b.currentTime=tB();b.play().catch(()=>{})}playing=true;$('play').textContent='Pause'}
+  else{a.pause();if(b)b.pause();playing=false;$('play').textContent='Play'}};
+let last=0;(function loop(ts){const a=vid('a');if(playing&&a){tA=a.currentTime;if(ts-last>250){last=ts;const d=a.duration||1;$('scrub').value=tA/d*1000;render(false);const b=vid('b');if(b&&!b.paused){const r=Math.min(4,Math.max(.25,rateB()));if(Math.abs(b.playbackRate-r)>.01)b.playbackRate=r;const tb=tB();if(Math.abs(b.currentTime-tb)>.5)b.currentTime=tb}}if(a.ended){playing=false;$('play').textContent='Play';const b=vid('b');if(b)b.pause()}}requestAnimationFrame(loop)})(0);
+$('dir').onchange=e=>{let k=0;for(const f of e.target.files){const m=f.name.match(/^(\d\d)_/);if(m&&/\.(mp4|mov|m4v|webm)$/i.test(f.name)){files[m[1]]=URL.createObjectURL(f);k++}}
+  $('dirMsg').textContent=k?`${k} files ready to play. Browsers can’t decode ProRes; if 17 won’t play, use its YouTube link.`:'No matching files found (names should start with 01_, 02_ …).';setVideo('a',A);setVideo('b',B);render(true)};
+$('add').onclick=()=>{const x=$('nt').value.trim();if(!x)return;notes.push({id:'n'+Date.now(),v:A.id,t:Math.round(tA),x});$('nt').value='';save();render()};
+$('notes').addEventListener('click',e=>{const a=e.target.closest('a');if(a){pick(a.dataset.v,+a.dataset.t);return}
+  const d=e.target.closest('[data-del]');if(d){notes=notes.filter(n=>n.id!=d.dataset.del);save();render()}});
+$('copy').onclick=()=>{const s=JSON.stringify(notes,null,1);navigator.clipboard.writeText(s).then(()=>{$('copy').textContent='Copied'},()=>{$('imp').value=s;$('imp').closest('details').open=true;$('copy').textContent='Select & copy below'});setTimeout(()=>$('copy').textContent='Copy all notes',2500)};
+$('doImp').onclick=()=>{try{const n=JSON.parse($('imp').value);if(Array.isArray(n)){notes=n;save();render()}}catch(e){$('imp').value='That isn’t valid notes JSON.'}};
+new ResizeObserver(()=>drawTracks()).observe($('stack'));
+setVideo('a',A);setVideo('b',B);$('bSel').value=B.id;render();
+}
+</script>
+</body>
+</html>
